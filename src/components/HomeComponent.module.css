@@ -1,0 +1,379 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Keep content towards top */
+  min-height: auto; /* Remove fixed min-height */
+  text-align: center;
+  padding: 1.5rem 1rem 3rem 1rem; /* Reduced top padding */
+  width: 100%;
+  gap: 1.5rem; /* Adjusted gap */
+}
+
+.placeholder {
+  color: #ccc;
+}
+
+.highlight {
+  color: #0070f3; /* Example highlight color */
+  font-weight: bold;
+}
+
+.error {
+  color: #ff4d4f;
+  font-weight: bold;
+}
+
+.errorMessage {
+  color: #ff4d4f;
+  margin-top: 1rem;
+  background-color: rgba(255, 77, 79, 0.1);
+  padding: 0.8rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 77, 79, 0.2);
+}
+
+.pfpContainer {
+  margin-bottom: 1rem; /* Slightly reduce space below PFP */
+}
+
+.pfpImage {
+  border-radius: 50%;
+  border: 4px solid #eee; /* Thicker border */
+  transition: border-color 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+.userNameHighlight {
+    font-weight: 600; /* Make slightly bolder */
+    color: #333;
+}
+
+.title {
+    margin-bottom: 1.5rem; /* Reduce space below title */
+    font-size: 1.7rem; /* Slightly smaller */
+    width: 100%;
+    text-align: center;
+    color: #222; /* Darker title color */
+}
+
+.resultsContainer {
+    margin-top: 0; /* Remove top margin as header handles spacing */
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 550px;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.resultTitle {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.summary {
+    font-style: normal; /* Remove italic */
+    color: #444; /* Darker summary text */
+    margin-bottom: 2rem; /* More space below summary */
+    text-align: center;
+    line-height: 1.6;
+    font-size: 1.05rem;
+}
+
+.percentagesContainer {
+    margin-bottom: 0; /* Remove bottom margin when in grid */
+}
+
+.percentagesContainer h3 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #555;
+    text-align: left; /* Align left */
+}
+
+.percentagesContainer ul {
+    list-style: none;
+    padding: 0;
+}
+
+.percentagesContainer li {
+    margin-bottom: 0.6rem;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    display: flex; /* Align icon and text */
+    align-items: center;
+}
+
+.houseIcon {
+    margin-right: 0.6em;
+    font-size: 1.1em;
+    display: inline-block;
+    width: 1.2em; /* Ensure consistent alignment */
+    text-align: center;
+}
+
+.evidenceContainer {
+    margin-bottom: 0; /* Remove bottom margin when in grid */
+}
+
+.evidenceContainer h3 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #555;
+    text-align: left;
+}
+
+.evidenceItem {
+    background-color: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.traitTitle {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: #111;
+    font-size: 1.05rem;
+    font-weight: 600; /* Bolder trait title */
+}
+
+.evidenceItem blockquote {
+    margin: 0 0 0.75rem 0;
+    padding-left: 1rem;
+    border-left: 3px solid #ccc;
+    font-style: italic;
+    color: #555;
+}
+
+.evidenceItem blockquote p {
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+}
+
+.explanation {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* New Why Not Section Styles */
+.whyNotContainer {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.whyNotContainer h3 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #555;
+    text-align: center;
+}
+
+.whyNotItem {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.whyNotItem strong {
+    font-weight: 600;
+    display: inline-flex; /* Align icon */
+    align-items: center;
+    margin-right: 0.3em;
+}
+
+/* Share Button Styles */
+.shareButton {
+    margin-top: 0; /* REMOVED top margin */
+    margin-bottom: 1rem; /* Add some bottom margin instead */
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #0070f3;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.shareButton:hover {
+    background-color: #005bb5;
+}
+
+.shareButton:active {
+    transform: scale(0.98);
+}
+
+.shareButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* House specific styles */
+.gryffindor {
+  color: #ae0001;
+  border-color: #d3a625;
+  background-color: rgba(174, 0, 1, 0.05);
+}
+.slytherin {
+  color: #1a472a;
+  border-color: #aaaaaa;
+  background-color: rgba(26, 71, 42, 0.05);
+}
+.hufflepuff {
+  color: #ffdb00; /* Use a darker text for background */
+  border-color: #60605f;
+  background-color: rgba(255, 219, 0, 0.1);
+  color: #372e29; /* Darker text on yellow background */
+}
+.ravenclaw {
+  color: #0e1a40;
+  border-color: #946b2d;
+  background-color: rgba(14, 26, 64, 0.05);
+}
+
+/* Apply border color to PFP based on house */
+.pfpImage.gryffindor { border-color: #ae0001; }
+.pfpImage.slytherin { border-color: #1a472a; }
+.pfpImage.hufflepuff { border-color: #ffdb00; }
+.pfpImage.ravenclaw { border-color: #0e1a40; }
+
+/* Highlight color for primary house name */
+.highlight {
+  font-weight: bold;
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+.highlight.gryffindor { background-color: #ae0001; color: white; }
+.highlight.slytherin { background-color: #1a472a; color: white; }
+.highlight.hufflepuff { background-color: #ffdb00; color: #372e29; }
+.highlight.ravenclaw { background-color: #0e1a40; color: white; }
+
+/* Loading Spinner Styles */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem; /* More padding */
+  min-height: 300px; /* Give it more space */
+}
+
+.spinner {
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border-left-color: #0070f3; /* Use theme color */
+  margin-bottom: 1.5rem;
+  animation: spin 1s linear infinite; /* Changed timing function */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingText {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Error Styles */
+.errorTitle {
+    color: #d32f2f; /* Error color */
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* New Header Styles */
+.headerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem; /* Space below header */
+    width: 100%;
+    max-width: 550px; /* Match results container */
+}
+
+.pfpContainerSmall { 
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.pfpImageSmall {
+  border-radius: 50%;
+  border: 3px solid #eee;
+  transition: border-color 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.titleSmall {
+    font-size: 1.4rem;
+    text-align: left;
+    color: #333;
+    font-weight: 500; /* Less emphasis than results */
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Media Query for Mobile Spacing */
+@media (max-width: 600px) {
+    .container {
+        padding-left: 0.75rem; /* Reduce horizontal padding */
+        padding-right: 0.75rem;
+        gap: 1rem; /* Reduce gap slightly */
+    }
+
+    .headerContainer {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        gap: 0.75rem;
+    }
+
+    .titleSmall {
+        font-size: 1.2rem; /* Slightly smaller title on mobile */
+    }
+
+    .resultsContainer {
+        padding: 1rem; /* Reduce padding inside results box */
+    }
+
+    .detailsGrid {
+        grid-template-columns: 1fr; /* Ensure single column */
+        gap: 1.5rem;
+    }
+
+    .percentagesContainer h3,
+    .evidenceContainer h3,
+    .whyNotContainer h3 {
+        font-size: 1rem; /* Smaller section titles */
+    }
+
+    .shareButton {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.95rem;
+    }
+} 
