@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import styles from './HomeComponent.module.css';
+import { shareCastIntent } from '@/lib/frame';
 
 // Helper function to get house colors (adjust as needed)
 const getHouseStyle = (houseName) => {
@@ -25,54 +26,46 @@ export function HomeComponent() {
 
   // Effect to check for window.userFid
   useEffect(() => {
-    // Check immediately in case it's already set
     if (typeof window !== 'undefined' && window.userFid) {
-      console.log('HomeComponent found window.userFid immediately:', window.userFid);
+      // console.log('HomeComponent found window.userFid immediately:', window.userFid);
       setFid(window.userFid);
-      setIsLoading(false); // Stop initial loading check
-      return; // Exit effect early
+      setIsLoading(false); 
+      return; 
     }
-
-    // If not found immediately, poll for it
     let attempts = 0;
-    const maxAttempts = 30; // e.g., 30 * 200ms = 6 seconds
+    const maxAttempts = 30; 
     const intervalMs = 200;
-    console.log('HomeComponent starting poll for window.userFid');
+    // console.log('HomeComponent starting poll for window.userFid');
     const intervalId = setInterval(() => {
       attempts++;
       if (typeof window !== 'undefined' && window.userFid) {
-        console.log(`HomeComponent found window.userFid after ${attempts} attempts:`, window.userFid);
+        // console.log(`HomeComponent found window.userFid after ${attempts} attempts:`, window.userFid);
         setFid(window.userFid);
-        setIsLoading(false); // Can likely remove this if fetch effect handles loading
         clearInterval(intervalId);
       } else if (attempts >= maxAttempts) {
-        console.warn('HomeComponent polling timeout reached without finding window.userFid.');
+        // console.warn('HomeComponent polling timeout reached without finding window.userFid.');
         setError("Could not detect Farcaster frame context. Ensure you're viewing this in a frame.");
         setIsLoading(false);
         clearInterval(intervalId);
       }
     }, intervalMs);
-
-    // Cleanup interval on component unmount
     return () => {
-      console.log("HomeComponent cleaning up polling interval.");
+      // console.log("HomeComponent cleaning up polling interval.");
       clearInterval(intervalId);
     };
-  }, []); // Run only once on mount
+  }, []);
 
   // Fetch data effect (triggered by fid change)
   useEffect(() => {
     if (!fid) {
-        return; // Do nothing if FID is null
+        return;
     }
-
-    console.log(`HomeComponent FID set to: ${fid}, fetching analysis data...`);
+    // console.log(`HomeComponent FID set to: ${fid}, fetching analysis data...`);
     setIsLoading(true);
     setError(null);
     setUserData(null);
     setHogwartsData(null);
     setShareStatus('');
-
     fetch(`/api/user?fid=${fid}`)
       .then(async res => {
         if (!res.ok) {
@@ -83,56 +76,72 @@ export function HomeComponent() {
         return res.json();
       })
       .then(data => {
-        console.log("HomeComponent received analysis data:", data);
+        // console.log("HomeComponent received analysis data:", data);
         if (!data.hogwarts) throw new Error("Missing Hogwarts analysis.");
         setUserData({ username: data.username, pfp_url: data.pfp_url, display_name: data.display_name });
         setHogwartsData(data.hogwarts);
-        setIsLoading(false); // Data loaded
+        setIsLoading(false); 
       })
       .catch(err => {
-        console.error("Error fetching analysis data:", err);
+        console.error("Error fetching analysis data:", err); // Keep error
         setError(err.message || "Failed to fetch analysis data.");
-        setIsLoading(false); // Error occurred
+        setIsLoading(false); 
       });
   }, [fid]);
 
   const handleShareClick = useCallback(async () => {
-    if (!hogwartsData || !fid) return;
-
-    const shareTitle = `What Hogwarts House is ${userData?.display_name || userData?.username || `FID ${fid}` }?`;
-    const shareText = `According to the Sorting Hat, ${userData?.display_name || `FID ${fid}` } is most likely a ${hogwartsData.primaryHouse}! Find out your Farcaster Hogwarts House:`;
-    const shareUrl = `${window.location.origin}${window.location.pathname}?fid=${fid}`;
+    if (!hogwartsData || !fid || !userData) {
+      // console.error('Missing data for sharing:', { hogwartsData, fid, userData });
+      setShareStatus('Error: Missing data');
+      setTimeout(() => setShareStatus(''), 3000);
+      return;
+    }
 
     setShareStatus('Sharing...');
 
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: shareTitle,
-          text: shareText,
-          url: shareUrl,
-        });
-        console.log('Shared successfully via Web Share API');
-        setShareStatus('Shared!');
-      } catch (error) {
-        console.error('Error sharing via Web Share API:', error);
-        if (error.name !== 'AbortError') {
-            setShareStatus('Failed to share');
-        } else {
-            setShareStatus('');
-        }
+    try {
+      const apiResponse = await fetch('/api/create-share-link', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          house: hogwartsData.primaryHouse,
+          displayName: userData.display_name || userData.username || `FID ${fid}`,
+          pfpUrl: userData.pfp_url || '',
+          fid: fid,
+        }),
+      });
+
+      if (!apiResponse.ok) {
+        const errorData = await apiResponse.json();
+        throw new Error(errorData.error || `Failed to create share link (status: ${apiResponse.status})`);
       }
-    } else {
-      try {
-        await navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
-        console.log('Link copied to clipboard');
-        setShareStatus('Link Copied!');
-      } catch (error) {
-        console.error('Error copying to clipboard:', error);
-        setShareStatus('Failed to copy link');
+
+      // Destructure generatedImageR2Url as well
+      const { shareablePageUrl, generatedImageR2Url } = await apiResponse.json();
+
+      // Log the R2 URL to the front-end console as requested
+      if (generatedImageR2Url) {
+        console.log('Final R2 Image URL:', generatedImageR2Url);
       }
+
+      if (!shareablePageUrl) {
+        throw new Error('Shareable Page URL not received from API.');
+      }
+
+      const castText = `I'm a ${hogwartsData.primaryHouse}! What house are you?`;
+      
+      await shareCastIntent(castText, shareablePageUrl);
+      
+      setShareStatus('Shared!');
+
+    } catch (err) {
+      console.error('Error in handleShareClick:', err); // Keep error
+      setShareStatus(`Share failed: ${err.message.substring(0, 50)}...`);
+    } finally {
+      setTimeout(() => setShareStatus(''), 5000); 
     }
-    setTimeout(() => setShareStatus(''), 3000);
   }, [hogwartsData, userData, fid]);
 
   const primaryHouse = hogwartsData?.primaryHouse;
