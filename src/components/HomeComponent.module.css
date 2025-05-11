@@ -46,7 +46,7 @@
 
 .userNameHighlight {
     font-weight: 600; /* Make slightly bolder */
-    color: #333;
+    color: #fff;
 }
 
 .title {
@@ -54,15 +54,15 @@
     font-size: 1.7rem; /* Slightly smaller */
     width: 100%;
     text-align: center;
-    color: #222; /* Darker title color */
+    color: #fff; /* Darker title color */
 }
+
 
 .resultsContainer {
     margin-top: 0; /* Remove top margin as header handles spacing */
     padding: 1.5rem;
-    border: 1px solid #e0e0e0;
     border-radius: 12px;
-    background-color: #ffffff;
+    background-color: #fcf7e8;
     width: 100%;
     max-width: 550px;
     text-align: left;
@@ -73,9 +73,10 @@
     text-align: center;
     margin-top: 0;
     margin-bottom: 1.5rem;
-    font-size: 1.6rem;
+    font-size: 1rem;
     color: #333;
     font-weight: 600;
+    text-transform: uppercase;
 }
 
 .summary {
@@ -128,9 +129,10 @@
 
 .evidenceContainer h3 {
     margin-bottom: 1rem;
-    font-size: 1.1rem;
+    font-size: 2rem;
     color: #555;
-    text-align: left;
+    text-align: center;
+    text-transform: uppercase;
 }
 
 .evidenceItem {
@@ -261,9 +263,15 @@
 
 /* Highlight color for primary house name */
 .highlight {
-  font-weight: bold;
+  display: inline-block;
+  font-weight: normal;
   padding: 0.1em 0.3em;
   border-radius: 4px;
+  font-family: "Harry P", sans-serif;
+  font-size: 4.5em;
+  letter-spacing: .02em;
+  margin-top: .15em;
+  text-transform: none;
 }
 
 .highlight.gryffindor { background-color: #ae0001; color: white; }
@@ -281,19 +289,17 @@
   min-height: 300px; /* Give it more space */
 }
 
-.spinner {
-  border: 5px solid rgba(0, 0, 0, 0.1);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border-left-color: #0070f3; /* Use theme color */
-  margin-bottom: 1.5rem;
-  animation: spin 1s linear infinite; /* Changed timing function */
+.imageWrapper {
+  /* width: 25%;
+  height: auto;
+  margin-top: 1em; */
+  max-width: 600px;
+  aspect-ratio: 668/513; /* or whatever the image ratio is */
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.headerImage {
+  width: 100%;
+  height: 100%;
 }
 
 .loadingText {
@@ -333,7 +339,7 @@
 .titleSmall {
     font-size: 1.4rem;
     text-align: left;
-    color: #333;
+    color: #fff;
     font-weight: 500; /* Less emphasis than results */
     line-height: 1.4;
     margin: 0;
