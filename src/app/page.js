@@ -26,6 +26,15 @@ export const metadata = {
 export default function Home() {
   return (
     <div className={styles.page}>
+      {/* <div className={styles.imageWrapper}>
+        <Image
+          src="/hat.gif"
+          alt="Talking sorting hat"
+          fill
+          priority
+          className={styles.headerImage}
+        />
+      </div> */}
       <main className={styles.main}>
         <HomeComponent />
       </main>
